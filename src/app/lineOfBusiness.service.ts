@@ -7,7 +7,6 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { LineOfBusiness } from './LineOfBusiness';
 import { MessageService } from './message.service';
 
-
 @Injectable({ providedIn: 'root' })
 export class LineOfBusinessService {
 
@@ -25,7 +24,7 @@ export class LineOfBusinessService {
   getLinesOfBusiness(): Observable<LineOfBusiness[]> {
     return this.http.get<LineOfBusiness[]>(this.lineOfBusinessUrl)
       .pipe(
-        tap(_ => this.log('fetched lines of business')),
+        tap((_: any) => this.log('fetched lines of business')),
         catchError(this.handleError<LineOfBusiness[]>('getLinesOfBusiness', []))
       );
   }
@@ -36,7 +35,7 @@ export class LineOfBusinessService {
     return this.http.get<LineOfBusiness[]>(url)
       .pipe(
         map(linesOfBusiness => linesOfBusiness[0]), // returns a {0|1} element array
-        tap(h => {
+        tap((h: any) => {
           const outcome = h ? `fetched` : `did not find`;
           this.log(`${outcome} lineOfBusiness id=${id}`);
         }),
@@ -48,7 +47,7 @@ export class LineOfBusinessService {
   getLineOfBusiness(id: number): Observable<LineOfBusiness> {
     const url = `${this.lineOfBusinessUrl}/${id}`;
     return this.http.get<LineOfBusiness>(url).pipe(
-      tap(_ => this.log(`fetched lineOfBusiness id=${id}`)),
+      tap((_: any) => this.log(`fetched lineOfBusiness id=${id}`)),
       catchError(this.handleError<LineOfBusiness>(`getLineOfBusiness id=${id}`))
     );
   }
@@ -82,7 +81,7 @@ export class LineOfBusinessService {
     const url = `${this.lineOfBusinessUrl}/${id}`;
 
     return this.http.delete<LineOfBusiness>(url, this.httpOptions).pipe(
-      tap(_ => this.log(`deleted line of business id=${id}`)),
+      tap((_: any) => this.log(`deleted line of business id=${id}`)),
       catchError(this.handleError<LineOfBusiness>('deleteLineOfBusiness'))
     );
   }
@@ -90,7 +89,7 @@ export class LineOfBusinessService {
   /** PUT: update the line of business on the server */
   updateLineOfBusiness(lineOfBusiness: LineOfBusiness): Observable<any> {
     return this.http.put(this.lineOfBusinessUrl, lineOfBusiness, this.httpOptions).pipe(
-      tap(_ => this.log(`updated line of business id=${lineOfBusiness.id}`)),
+      tap((_: any) => this.log(`updated line of business id=${lineOfBusiness.id}`)),
       catchError(this.handleError<any>('updateLineOfBusiness'))
     );
   }

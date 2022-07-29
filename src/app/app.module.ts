@@ -14,6 +14,10 @@ import { LineOfBusinessDetailComponent } from './lineOfBusiness-detail/lineOfBus
 import { LineOfBusinessComponent } from './linesOfBusiness/linesOfBusiness.component';
 import { LineOfBusinessSearchComponent } from './lineOfBusiness-search/lineOfBusiness-search.component';
 import { MessagesComponent } from './messages/messages.component';
+import { MostQuotedLinesOfBusinessComponent} from './mostQuotedLinesOfBusiness/mostQuotedLinesofBusiness.component'
+
+import { LineOfBusinessService } from './lineOfBusiness.service'; 
+import { RecentQuotesService } from './recentQuotes.service';
 
 @NgModule({
   imports: [
@@ -35,7 +39,12 @@ import { MessagesComponent } from './messages/messages.component';
     LineOfBusinessDetailComponent,
     LineOfBusinessComponent,
     LineOfBusinessSearchComponent,
-    MessagesComponent
+    MessagesComponent,
+    MostQuotedLinesOfBusinessComponent
+  ],
+  providers: [
+    LineOfBusinessService,
+    RecentQuotesService,
   ],
   bootstrap: [ AppComponent ]
 })

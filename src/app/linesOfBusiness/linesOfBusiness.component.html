@@ -15,10 +15,8 @@
 
 <ul class="linesOfBusiness">
   <li *ngFor="let lineOfBusiness of linesOfBusiness">
-    <a routerLink="/detail/{{lineOfBusiness.id}}">
-      
-      <span class="badge">{{lineOfBusiness.id}}</span> {{lineOfBusiness.name}} - {{lineOfBusiness.description}}
-    </a>
+    <a routerLink="/detail/{{lineOfBusiness.id}}"><span class="badge">{{lineOfBusiness.id}}</span> {{lineOfBusiness.name}} - {{lineOfBusiness.description}}</a>
+
     <button class="delete" title="delete lineOfBusiness"
       (click)="delete(lineOfBusiness)">x</button>
     

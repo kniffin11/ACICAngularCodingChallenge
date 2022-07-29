@@ -1,0 +1,13 @@
+<table style="margin: 20px 0;">
+    <thead>
+        <th>Lines of Business</th>
+        <th>Quotes</th>
+    </thead>
+    <tbody>
+        <!-- for all values in mostQuoted -->
+        <tr *ngFor="let lineOfBusiness of mostQuoted">
+            <td>{{lineOfBusiness.name}}</td>
+            <td>{{lineOfBusiness.count}}</td>
+        </tr>
+    </tbody>
+</table>

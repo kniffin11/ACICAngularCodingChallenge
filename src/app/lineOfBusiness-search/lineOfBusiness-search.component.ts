@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
 import { Observable, Subject } from 'rxjs';
-
-import {
-   debounceTime, distinctUntilChanged, switchMap
- } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 import { LineOfBusiness } from '../LineOfBusiness';
 import { LineOfBusinessService } from '../lineOfBusiness.service';
@@ -14,6 +10,7 @@ import { LineOfBusinessService } from '../lineOfBusiness.service';
   templateUrl: './lineOfBusiness-search.component.html',
   styleUrls: [ './lineOfBusiness-search.component.css' ]
 })
+
 export class LineOfBusinessSearchComponent implements OnInit {
   linesOfBusiness$!: Observable<LineOfBusiness[]>;
   private searchTerms = new Subject<string>();
