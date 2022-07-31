@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Observable, of } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { LineOfBusiness } from './LineOfBusiness';
 import { MessageService } from './message.service';
+import { BusinessAndQuotes } from './BusinessAndQuotes';
 
 @Injectable({ providedIn: 'root' })
 export class LineOfBusinessService {
 
   private lineOfBusinessUrl = 'api/linesOfBusiness';  // URL to web api
+  private recentQuotesUrl = 'api/recentQuotes';  // URL to web api
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -27,6 +29,41 @@ export class LineOfBusinessService {
         tap((_: any) => this.log('fetched lines of business')),
         catchError(this.handleError<LineOfBusiness[]>('getLinesOfBusiness', []))
       );
+  }
+
+  // to be clear, I didn't make this code, I found it online but I read through it and understand what each part does
+  getRecentQuotes(): Observable<any[]> {
+    // Combine the two collections, LineOfBusiness and BusinessAndQuotes
+    return combineLatest([this.http.get<LineOfBusiness[]>(this.lineOfBusinessUrl), this.http.get<BusinessAndQuotes[]>(this.recentQuotesUrl)])
+      .pipe(
+        // to find the acting foreign key on the recentQuotes table and connect it with linesOfBusiness
+        map((data: any[]) => {
+          let sum = data[1].map((itm: any) => ({
+            ...data[0].find((line: any) => (itm.lineOfBusiness === line.id) && line),
+            ...itm
+        }));;
+        let group = sum.reduce((a: any, b: any) => {
+            let name = b.name;
+            if (!a.hasOwnProperty(name)) {
+                a[name] = 0;
+            }
+            a[name]++;
+            return a;
+        }, {});
+        let count = Object.keys(group).map((k: any) => {
+            return { name: k, count: group[k], id: 0 };
+        });
+        let another = data[0].map((k: any) => {
+            return { id: k.id };
+        });
+        count.forEach((item, i) => {
+            item.id = another[i].id;
+        });
+        return count;
+      }),
+      tap(_ => this.log('fetched recentQuotes')),
+      catchError(this.handleError<any[]>('recentQuotes', []))
+    );
   }
 
   /** GET line of business by id. Return `undefined` when id not found */

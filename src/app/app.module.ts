@@ -14,9 +14,7 @@ import { LineOfBusinessDetailComponent } from './lineOfBusiness-detail/lineOfBus
 import { LineOfBusinessComponent } from './linesOfBusiness/linesOfBusiness.component';
 import { LineOfBusinessSearchComponent } from './lineOfBusiness-search/lineOfBusiness-search.component';
 import { MessagesComponent } from './messages/messages.component';
-import { MostQuotedLinesOfBusinessComponent} from './mostQuotedLinesOfBusiness/mostQuotedLinesofBusiness.component'
-
-import { LineOfBusinessService } from './lineOfBusiness.service'; 
+import { MostQuotedLinesOfBusinessComponent } from './mostQuotedLinesOfBusiness/mostQuotedLinesofBusiness.component';
 import { RecentQuotesService } from './recentQuotes.service';
 
 @NgModule({
@@ -42,10 +40,8 @@ import { RecentQuotesService } from './recentQuotes.service';
     MessagesComponent,
     MostQuotedLinesOfBusinessComponent
   ],
-  providers: [
-    LineOfBusinessService,
-    RecentQuotesService,
-  ],
+  // this was to try and use its own service, instead of including getRecentQuotes on lineOfBusiness.service.ts
+  providers: [RecentQuotesService],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

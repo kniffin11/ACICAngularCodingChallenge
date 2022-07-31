@@ -1,31 +1,32 @@
 import { Component, OnInit } from '@angular/core';
 import { RecentQuotesService } from '../recentQuotes.service';
 import { BusinessAndQuotes } from '../BusinessAndQuotes';
+import { LineOfBusinessService } from '../lineOfBusiness.service';
 
 @Component({
     selector: 'app-mostQuoted',
     templateUrl: './mostQuotedLinesOfBusiness.component.html',
-    // styleUrls: ['./mostQuotedLinesOfBusiness.component.css'] // I didn't make any css 
+    styleUrls: ['./mostQuotedLinesOfBusiness.component.css']
 })
 export class MostQuotedLinesOfBusinessComponent implements OnInit {
     // this is like a foreign key table/collection, represents the lines of business sorted by quotes
     mostQuoted: BusinessAndQuotes[] = [];
 
     constructor(
-        private recentQuotesService: RecentQuotesService
-    ) { }
+        // I wanted to recentQuotes service to getRecentQuotes, but it fails. Although when the same function is used on lineOfBusiness.service.ts, the function works correctly
+        private recentQuotesService: RecentQuotesService,
+        private lineOfBusinessService: LineOfBusinessService
+        ) { }
 
-    // on component mount
-    ngOnInit(): void {
+    ngOnInit() {
         this.getRecentQuotes();
     }
 
-    // get recent quotes from db
     getRecentQuotes(): void {
-        this.recentQuotesService.getRecentQuotes()
-            .subscribe((recentQuotes: any[]) => {
-                //set the arr to the results from the service function, sort high to low, slice for 2 businesses with most quotes
-                this.mostQuoted = recentQuotes.sort((a: { count: number; }, b: { count: number; }) => {return b.count - a.count}).slice(0,2);
+        this.lineOfBusinessService.getRecentQuotes()
+            .subscribe((linesOfBusiness: any[]) => {
+                // set mostQuoted to the lines of business sorted by most quotes, then take the top two
+                this.mostQuoted = linesOfBusiness.sort((a, b) => {return b.count - a.count}).slice(0,2);
             });
     }
 }
