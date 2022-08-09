@@ -29,8 +29,7 @@ export class RecentQuotesService {
             catchError(this.handleError<RecentQuotes[]>('getRecentQuotes'))
         )
     }
-
-    // to be clear, I didn't make this code, I found it online but I read through it and understand what each part does
+  
     getRecentQuotes(): Observable<any[]> {
     // Combine the two collections, LineOfBusiness and BusinessAndQuotes
     return combineLatest([this.http.get<LineOfBusiness[]>(this.lineOfBusinessUrl), this.http.get<BusinessAndQuotes[]>(this.recentQuotesUrl)])
